@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry, Noor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f2a2e;--ink:#eef6f4;--soft:#9fb8b8;--accent:#f2c879;--line:#7fd1c7;--btn-ink:#0f2a2e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef7f5;--ink:#12343a;--soft:#4f6f73;--accent:#9a6a1f;--line:#0c6b6b;--btn-ink:#ffffff}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cormorant Garamond",Georgia,serif;font-size:1.35rem;line-height:1.65;min-height:100vh}
+main{max-width:34rem;margin:0 auto;padding:0 1.5rem 6rem}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center}
+h1{font-size:clamp(3.4rem,16vw,6.5rem);font-style:italic;font-weight:600;line-height:1;margin:0 0 1.5rem;color:var(--accent);animation:rise 1.6s ease both}
+.hero p{margin:0;color:var(--soft);max-width:24rem;animation:rise 1.6s .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.line{opacity:0;max-height:0;overflow:hidden;margin:0;transition:opacity 1s ease}
+.line.on{opacity:1;max-height:30rem;margin:0 0 1.6rem}
+.line.big{font-size:1.9rem;font-style:italic;color:var(--accent);line-height:1.35}
+button{font:500 1rem "Jost",system-ui,sans-serif;border:0;border-radius:2rem;padding:.9rem 1.6rem;cursor:pointer;min-height:48px}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.next{background:transparent;color:var(--line);border:1.5px solid var(--line)}
+.yes{background:var(--line);color:var(--btn-ink)}
+.later{background:transparent;color:var(--soft);border:1.5px solid var(--soft)}
+.ask{display:none;margin-top:2.5rem}
+.ask.on{display:block}
+.ask h2{font-size:2.2rem;font-style:italic;font-weight:600;margin:0 0 1.5rem;line-height:1.2}
+.row{display:flex;gap:.8rem;flex-wrap:wrap}
+.reply{margin-top:1.8rem;font-style:italic;color:var(--accent);min-height:3rem}
+.star{position:fixed;bottom:-2rem;color:var(--accent);pointer-events:none;animation:float 4s ease-in forwards}
+@keyframes float{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}h1,.hero p{animation:none}.line{transition:none}.star{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Sorry, Noor.</h1>
+    <p>For being busy all day and not being there when you needed me.</p>
+  </section>
+
+  <!-- EDIT THE LETTER: change the words inside each <p class="line"> -->
+  <article id="letter" aria-live="polite">
+    <p class="line">I was busy all day, and I wasn’t there for you the way I wanted to be.</p>
+    <p class="line">I know a late reply or a short answer doesn’t feel like enough. You deserved my time, and you only got what was left of it.</p>
+    <p class="line">Work took my hours, but it should never take my attention away from the people who matter most to me. You are one of them.</p>
+    <p class="line">I’m sorry I made you wait. I’m sorry if you felt alone or unimportant, even for a moment. You never are.</p>
+    <p class="line">Here is my promise: even on my busiest days, I will send a message to say I’m thinking of you, and I will set aside real time for you every day.</p>
+    <p class="line big">Thank you for being patient with me. I’m here now.<br>— Badar</p>
+  </article>
+
+  <button class="next" id="next" type="button">Keep reading</button>
+
+  <section class="ask" id="ask">
+    <h2>Can I make it up to you tonight?</h2>
+    <div class="row">
+      <button class="yes" id="yes" type="button">Yes, you can</button>
+      <button class="later" id="later" type="button">Not tonight, but soon</button>
+    </div>
+    <p class="reply" id="reply" role="status"></p>
+  </section>
+</main>
+<script>
+(function(){
+  var lines=document.querySelectorAll('.line'),i=0,next=document.getElementById('next'),
+      ask=document.getElementById('ask'),reply=document.getElementById('reply');
+  next.addEventListener('click',function(){
+    lines[i].classList.add('on');
+    lines[i].scrollIntoView({behavior:'smooth',block:'center'});
+    i++;
+    if(i>=lines.length){next.style.display='none';ask.classList.add('on');}
+    else if(i===lines.length-1){next.textContent='One last thing';}
+  });
+  document.getElementById('yes').addEventListener('click',function(){
+    reply.textContent='Thank you, Noor. Tonight is yours.';
+    for(var n=0;n<22;n++){
+      var s=document.createElement('span');
+      s.className='star';s.textContent='\u2726';
+      s.style.left=Math.random()*100+'vw';
+      s.style.fontSize=(1+Math.random()*1.6)+'rem';
+      s.style.animationDelay=(Math.random()*1.5)+'s';
+      document.body.appendChild(s);
+      setTimeout(function(el){el.remove()}.bind(null,s),6000);
+    }
+  });
+  document.getElementById('later').addEventListener('click',function(){
+    reply.textContent='Of course. Whenever you are ready, I’ll be here.';
+  });
+})();
+</script>
+</body>
+</html>
